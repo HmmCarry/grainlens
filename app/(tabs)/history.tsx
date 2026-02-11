@@ -3,11 +3,11 @@ import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Index() {
+export default function History() {
   return (
     <SafeAreaView>
-      <View className="">
-        <ThemedText className="">This is the index</ThemedText>
+      <View>
+        <ThemedText>History</ThemedText>
       </View>
     </SafeAreaView>
   );
