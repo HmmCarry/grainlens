@@ -1,37 +1,60 @@
 import { Tabs } from "expo-router";
 import React from "react";
+import { Platform, View } from "react-native";
 
 import { HapticTab } from "@/components/haptic-tab";
-import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colors = Colors.light;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarActiveTintColor: colors.tabIconSelected,
+        tabBarInactiveTintColor: colors.tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: colors.tabBar,
+          borderTopColor: colors.tabBarBorder,
+          borderTopWidth: 1,
+          height: Platform.OS === "ios" ? 88 : 68,
+          paddingBottom: Platform.OS === "ios" ? 28 : 10,
+          paddingTop: 8,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
+          letterSpacing: 0.3,
+          marginTop: 2,
+        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="capture"
-        options={{
-          title: "Capture",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="camera.fill" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ alignItems: "center" }}>
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: -8,
+                    width: 32,
+                    height: 3,
+                    borderRadius: 2,
+                    backgroundColor: colors.tabIconSelected,
+                  }}
+                />
+              )}
+              <MaterialIcons name="home-filled" size={26} color={color} />
+            </View>
           ),
         }}
       />
@@ -39,22 +62,57 @@ export default function TabLayout() {
         name="history"
         options={{
           title: "History",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="arrow.clockwise.circle.fill"
-              color={color}
-            />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ alignItems: "center" }}>
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: -8,
+                    width: 32,
+                    height: 3,
+                    borderRadius: 2,
+                    backgroundColor: colors.tabIconSelected,
+                  }}
+                />
+              )}
+              <MaterialIcons name="history" size={26} color={color} />
+            </View>
           ),
         }}
       />
       <Tabs.Screen
         name="info"
         options={{
-          title: "Info",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="info.bubble.fill" color={color} />
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ alignItems: "center" }}>
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: -8,
+                    width: 32,
+                    height: 3,
+                    borderRadius: 2,
+                    backgroundColor: colors.tabIconSelected,
+                  }}
+                />
+              )}
+              <MaterialCommunityIcons
+                name="account"
+                size={26}
+                color={color}
+              />
+            </View>
           ),
+        }}
+      />
+      {/* Capture tab exists for routing but is hidden from tab bar */}
+      <Tabs.Screen
+        name="capture"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
